@@ -33,8 +33,10 @@ class ImageController: UIViewController, UIScrollViewDelegate {
         view.backgroundColor = .systemBackground
         
         scrollView.contentInsetAdjustmentBehavior = .always
+        
         scrollView.minimumZoomScale = 1.0
-        scrollView.maximumZoomScale = 3.0
+        scrollView.maximumZoomScale = 8.0
+        scrollView.zoomScale = 1.0
 
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
@@ -66,9 +68,15 @@ class ImageController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
+        
         let scale = min(visibleWidth / image.size.width, visibleHeight / image.size.height)
-        imageView.frame = CGRect(x: 0, y: 0, width: image.size.width * scale, height: image.size.height * scale)
+        
+        imageView.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: image.size.width * scale * scrollView.zoomScale,
+            height: image.size.height * scale * scrollView.zoomScale
+        )
         
         scrollView.contentSize = imageView.frame.size
 
